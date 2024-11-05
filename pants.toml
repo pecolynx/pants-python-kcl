@@ -1,0 +1,63 @@
+[GLOBAL]
+pants_version = "2.19.0"
+
+backend_packages = [
+    "pants.backend.python",
+    # "pants.backend.python.lint.bandit",
+    "pants.backend.python.lint.black",
+    "pants.backend.python.lint.docformatter",
+    "pants.backend.docker.lint.hadolint",
+    "pants.backend.python.lint.isort",
+    # "pants.backend.python.lint.pylint",
+    "pants.backend.python.lint.pyupgrade",
+    "pants.backend.experimental.python.lint.ruff",
+    "pants.backend.python.typecheck.mypy",
+    "pants.backend.codegen.protobuf.python",
+    "pants.backend.docker",
+]
+
+[python]
+interpreter_constraints = [">=3.9,<3.13"]
+enable_resolves = true
+default_resolve = "default"
+
+[python.resolves]
+default = "3rdparty/python/default.lock"
+mypy = "3rdparty/python/mypy.lock"
+
+[source]
+root_patterns = [
+    "/src/python/*",
+    "/src/protos",
+]
+
+[test]
+use_coverage = true
+
+[black]
+config = "build-support/pyproject.toml"
+
+[isort]
+config = ["build-support/pyproject.toml"]
+
+# [pylint]
+# config = "build-support/pylint.config"
+
+[python-protobuf]
+mypy_plugin = true
+
+[mypy]
+config = "build-support/pyproject.toml"
+install_from_resolve = "mypy"
+requirements = ["//3rdparty/python:mypy"]
+
+[coverage-py]
+report = "xml"
+
+[ruff]
+config = "build-support/pyproject.toml"
+
+[docker]
+build_args = [
+    "GIT_COMMIT_SHA",
+]

@@ -1,0 +1,23 @@
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.black]
+line-length = 100
+
+[tool.mypy]
+ignore_missing_imports = true
+# strict = true
+plugins = "pydantic.mypy"
+
+[[tool.mypy.overrides]]
+module = ['helloworld.v1.*']
+ignore_errors = true
+
+# [tool.pytest.ini_options]
+[tool.pytest]
+addopts ="--cov-report=html"
+
+[tool.ruff]
+line-length = 100
